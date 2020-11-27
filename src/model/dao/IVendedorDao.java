@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.entities.Vendedor;
 
-public interface VendedorDao {
+public interface IVendedorDao {
 	void inserirVendedor(Vendedor vendedor);
 	void atualizarVendedor(Vendedor vendedor);
 	void deletarVendedorId(Vendedor vendedor);
