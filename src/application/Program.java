@@ -28,6 +28,13 @@ public class Program {
 			System.out.println("Nenhum vendedor encontrado");
 		}
 		
+		System.out.println();
+		System.out.println("=== Teste 3 : Pesquisar todos");
+		List<Vendedor> vendedores2 = vendedorDao.pesquisarVendedores();
+		for(Vendedor vend2 : vendedores2) {
+			System.out.println(vend2);
+		}
+		
 		DB.closeConnection();
 	}
 
