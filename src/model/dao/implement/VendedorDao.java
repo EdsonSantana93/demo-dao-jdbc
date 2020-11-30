@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -60,7 +63,7 @@ public class VendedorDao implements IVendedorDao{
 			throw new DbException("Error: " + e.getMessage()); 
 		} finally {
 			DB.closeResultSet(rs);
-			DB.closeStatement(ps);;
+			DB.closeStatement(ps);
 		}
 	}
 
@@ -86,6 +89,41 @@ public class VendedorDao implements IVendedorDao{
 	public List<Vendedor> pesquisarVendedores() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Vendedor> pesquisarPorDepartemento(Departamento departamento) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT seller.*, department.Name as DepName FROM seller"
+				+ " INNER JOIN department ON seller.DepartmentId = department.Id "
+				+ "WHERE DepartmentId = ? ORDER BY Name";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, departamento.getId());
+			rs = ps.executeQuery();
+			
+			List<Vendedor> vendedores = new ArrayList<>();
+			Map<Integer, Departamento> map = new HashMap<>();
+			
+			while(rs.next()) {
+				Departamento dep = map.get(rs.getInt("DepartmentId"));
+				
+				if(dep == null) {
+					dep = instanciarDepartamento(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				Vendedor vendedor = instanciarVendedor(rs, dep);
+				vendedores.add(vendedor);
+			}
+			return vendedores;
+		} catch (SQLException e) {
+			throw new DbException("Error: " + e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(ps);
+		}
 	}
 
 }
