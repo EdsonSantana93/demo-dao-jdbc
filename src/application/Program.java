@@ -1,5 +1,7 @@
 package application;
 
+
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -35,6 +37,10 @@ public class Program {
 			System.out.println(vend2);
 		}
 		
+		System.out.println("=== Teste 4 : Inserir vendedor");
+		Vendedor vendedorNovo = new Vendedor(null, "Maria do Bairro", "maria@gmail.com", new Date(), 2800.00, departamento);
+		vendedorDao.inserirVendedor(vendedorNovo);
+		System.out.println("Vendedor cadastrado com sucesso: " + vendedorNovo.getId() + " - " + vendedorNovo.getNome());
 		DB.closeConnection();
 	}
 

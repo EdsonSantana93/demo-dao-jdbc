@@ -1,9 +1,11 @@
 package model.dao.implement;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,38 @@ public class VendedorDao implements IVendedorDao{
 	
 	@Override
 	public void inserirVendedor(Vendedor vendedor) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
 		
+		String sql = "INSERT INTO seller (Name, Email, BirthDate, BaseSalary, DepartmentId) VALUES (?, ?, ?, ?, ?)";
+		
+		
+				
+		try {
+			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, vendedor.getNome());
+			ps.setString(2, vendedor.getEmail());
+			ps.setDate(3, new Date(vendedor.getDataNascimento().getTime()));
+			ps.setDouble(4, vendedor.getSalarioBase());
+			ps.setInt(5, vendedor.getDepartamento().getId());
+			
+			int linhasAfetadas = ps.executeUpdate();
+			
+			if (linhasAfetadas > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					vendedor.setId(id);
+				} else {
+					throw new DbException("Erro Inesperado! Nenhuma linha afetada!");
+				}
+				DB.closeResultSet(rs);
+			}
+			
+		} catch (SQLException e) {
+			throw new DbException("Error: " + e.getMessage()); 
+		} finally {
+			DB.closeStatement(ps);
+		}
 	}
 
 	@Override
