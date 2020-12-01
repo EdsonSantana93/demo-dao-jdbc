@@ -63,14 +63,32 @@ public class VendedorDao implements IVendedorDao{
 
 	@Override
 	public void atualizarVendedor(Vendedor vendedor) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
 		
-	}
+		String sql = "UPDATE seller SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? WHERE Id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, vendedor.getNome());
+			ps.setString(2, vendedor.getEmail());
+			ps.setDate(3, new Date(vendedor.getDataNascimento().getTime()));
+			ps.setDouble(4, vendedor.getSalarioBase());
+			ps.setInt(5, vendedor.getDepartamento().getId());
+			ps.setInt(6, vendedor.getId());
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException("Error: " + e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
+		
+	} 
 
 	@Override
-	public void deletarVendedorId(Vendedor vendedor) {
+	public void deletarVendedorId(Integer id) {
 		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override

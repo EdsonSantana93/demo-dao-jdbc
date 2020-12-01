@@ -1,7 +1,6 @@
 package application;
 
 
-import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -37,10 +36,17 @@ public class Program {
 			System.out.println(vend2);
 		}
 		
-		System.out.println("=== Teste 4 : Inserir vendedor");
+		/*System.out.println("\n=== Teste 4 : Inserir vendedor");
 		Vendedor vendedorNovo = new Vendedor(null, "Maria do Bairro", "maria@gmail.com", new Date(), 2800.00, departamento);
 		vendedorDao.inserirVendedor(vendedorNovo);
-		System.out.println("Vendedor cadastrado com sucesso: " + vendedorNovo.getId() + " - " + vendedorNovo.getNome());
+		System.out.println("Vendedor cadastrado com sucesso: " + vendedorNovo.getId() + " - " + vendedorNovo.getNome());*/
+		
+		System.out.println("\n=== Teste 5 : Atualizar vendedor");
+		vendedor = vendedorDao.pesquisarVendedorId(8);
+		vendedor.setNome("Estroncio Gonçalves");
+		vendedor.setEmail("estroncio@gmail.com");
+		vendedorDao.atualizarVendedor(vendedor);
+		System.out.println("Atualização realizada com sucesso!");
 		DB.closeConnection();
 	}
 
