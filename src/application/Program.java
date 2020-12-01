@@ -47,7 +47,12 @@ public class Program {
 		vendedor.setEmail("estroncio@gmail.com");
 		vendedorDao.atualizarVendedor(vendedor);
 		System.out.println("Atualização realizada com sucesso!");
-		DB.closeConnection();
+		
+		System.out.println("\n=== Teste 6 : Deletar vendedor");
+		vendedorDao.deletarVendedorId(7);
+		System.out.println("Vendedor Deletado com Sucesso!");
+		
+		DB.closeConnection();	
 	}
 
 }

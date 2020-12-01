@@ -87,7 +87,16 @@ public class VendedorDao implements IVendedorDao{
 
 	@Override
 	public void deletarVendedorId(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		String sql = "DELETE FROM seller WHERE Id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException("Error: " + e.getMessage());
+		}
 		return;
 	}
 
